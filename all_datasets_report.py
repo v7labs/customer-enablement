@@ -72,10 +72,8 @@ def validate_api_key(
         ValueError: If the API key failed validation
     '''
     example_key = "DHMhAWr.BHucps-tKMAi6rWF1xieOpUvNe5WzrHP"
-
-    assert len(api_key) == 40, f'Expected API key to be 40 characters long\n(example: {example_key})'
-    assert '.' in api_key, f'Expected API key formatted as prefix . suffix\n(example: {example_key})'
-    assert len(api_key.split('.')[0]) == 7, f'Expected API key prefix to be 7 characters long\n(example: {example_key})'
+    api_key_regex = re.compile(r'^\w{7}\.\w{32}$')
+    assert api_key_regex.match(api_key), f'Expected API key to match the pattern: {example_key}'
     
 def validate_arguments(
     output_dir: Path,
