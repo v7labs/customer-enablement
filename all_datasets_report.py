@@ -27,8 +27,11 @@ import argparse
 import requests
 import json
 import csv
+import re
 from pathlib import Path
 from typing import Tuple, Dict, List
+
+DARWIN_API_URL = 'https://darwin.v7labs.com'
 
 def get_args() -> argparse.Namespace:
     '''
@@ -71,10 +74,8 @@ def validate_api_key(
         ValueError: If the API key failed validation
     '''
     example_key = "DHMhAWr.BHucps-tKMAi6rWF1xieOpUvNe5WzrHP"
-
-    assert len(api_key) == 40, f'Expected API key to be 40 characters long\n(example: {example_key})'
-    assert '.' in api_key, f'Expected API key formatted as prefix . suffix\n(example: {example_key})'
-    assert len(api_key.split('.')[0]) == 7, f'Expected API key prefix to be 7 characters long\n(example: {example_key})'
+    api_key_regex = re.compile(r'^\w{7}\.\w{32}$')
+    assert api_key_regex.match(api_key), f'Expected API key to match the pattern: {example_key}'
     
 def validate_arguments(
     output_dir: Path,
@@ -118,7 +119,7 @@ def get_team_id(
     -------
          team_id (str): The Darwin team_id
     '''
-    url = 'https://darwin.v7labs.com/api/memberships'
+    url = f'{DARWIN_API_URL}/api/memberships'
     response = requests.get(url, headers=headers)
     return json.loads(response.text)[0]['team_id']
 
@@ -136,7 +137,7 @@ def get_dataset_ids(
     -------
         dataset_ids (List[Dict[str, str]]):  a list of dataset_ids in a Darwin team
     '''
-    url = 'https://darwin.v7labs.com/api/datasets'
+    url = f'{DARWIN_API_URL}/api/datasets'
     response = requests.get(url, headers=headers)
     return response.json()
 
@@ -164,15 +165,15 @@ def get_report_data(
     dataset_ids, report_data = [], []
     print(f'Generating report for {dataset_count} datasets...')
 
-    for index, dataset in enumerate(datasets):
+    for index, dataset in enumerate(datasets, 1):
         dataset_ids.append(dataset['id'])
-        is_last_dataset = (index + 1) == dataset_count
-        is_batch_full = (index + 1) % batch_size == 0
+        is_last_dataset = (index) == dataset_count
+        is_batch_full = (index) % batch_size == 0
 
         if is_batch_full or is_last_dataset:
-            print(f'Getting data for datasets {index + 2 - len(dataset_ids)} to {index + 1}...')
+            print(f'Getting data for datasets {index + 1 - len(dataset_ids)} to {index}...')
             ids_str = ','.join(str(dataset_id) for dataset_id in dataset_ids)
-            report_url = f'https://darwin.v7labs.com/api/reports/{team_id}/annotation?group_by=dataset%2Cuser&dataset_ids={ids_str}&granularity=day&format=csv&include=user.email%2Cdataset.name'
+            report_url = f'{DARWIN_API_URL}/api/reports/{team_id}/annotation?group_by=dataset%2Cuser&dataset_ids={ids_str}&granularity=day&format=csv&include=user.email%2Cdataset.name'
             response = requests.get(report_url, headers=headers)
             reader = csv.reader(response.text.splitlines())
             report_data += list(reader)
