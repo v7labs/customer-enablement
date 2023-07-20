@@ -30,6 +30,7 @@ import csv
 import re
 from pathlib import Path
 from typing import Tuple, Dict, List
+DARWIN_API_URL = 'https://darwin.v7labs.com'
 
 def get_args() -> argparse.Namespace:
     '''
