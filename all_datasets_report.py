@@ -2,7 +2,8 @@
 # Script name: all_datasets_report.py
 # Author: John Wilkie
 # Email: john@v7labs.com
-# Last edited: 19.07.23
+=======
+# Last edited: 10.08.23
 
 DESCRIPTION
 When executed from the command line, this script:
@@ -76,7 +77,7 @@ def validate_api_key(
     example_key = "DHMhAWr.BHucps-tKMAi6rWF1xieOpUvNe5WzrHP"
     api_key_regex = re.compile(r'^\w{7}\.\w{32}$')
     assert api_key_regex.match(api_key), f'Expected API key to match the pattern: {example_key}'
-    
+
 def validate_arguments(
     output_dir: Path,
     filename: str
@@ -101,7 +102,7 @@ def validate_arguments(
             print(f'Directory {output_dir} created.')
         else:
             raise ValueError(f'Output directory {output_dir} does not exist and was not created.')
-    
+
     if not filename.endswith('.csv'):
         raise ValueError(f'Expected filename to end with ".csv"\n(example: annotator_report.csv)')
 
@@ -163,6 +164,7 @@ def get_report_data(
     '''
     dataset_count = len(datasets)
     dataset_ids, report_data = [], []
+    first_batch = True
     print(f'Generating report for {dataset_count} datasets...')
 
     for index, dataset in enumerate(datasets, 1):
@@ -176,7 +178,12 @@ def get_report_data(
             report_url = f'{DARWIN_API_URL}/api/reports/{team_id}/annotation?group_by=dataset%2Cuser&dataset_ids={ids_str}&granularity=day&format=csv&include=user.email%2Cdataset.name'
             response = requests.get(report_url, headers=headers)
             reader = csv.reader(response.text.splitlines())
-            report_data += list(reader)
+            if first_batch:
+                first_batch = False
+                report_data += list(reader)
+            else:
+                next(reader)
+                report_data += list(reader)
             dataset_ids = []
 
     print('Done!')
