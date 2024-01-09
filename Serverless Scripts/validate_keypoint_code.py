@@ -1,5 +1,5 @@
 '''
-# Script name: fastai_keypoint_code.py
+# Script name: validate_keypoint_code.py
 # Last edited: 28.11.2023
 
 DESCRIPTION
