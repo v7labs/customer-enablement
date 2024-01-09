@@ -1,7 +1,5 @@
 '''
 # Script name: lambdavideoannotations.py
-# Author: Nooshin Ghavami
-# Email: nooshin@v7labs.com
 # Last edited: 28.11.2023
 
 DESCRIPTION

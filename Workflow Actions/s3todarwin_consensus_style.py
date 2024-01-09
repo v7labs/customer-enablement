@@ -1,5 +1,5 @@
 '''
-# Email: nooshin@v7labs.com
+# Script name: s3todarwin_consensus_style.py
 # Last edited: 07.07.2023
 
 DESCRIPTION

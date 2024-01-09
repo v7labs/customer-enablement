@@ -1,5 +1,5 @@
 '''
-# Email: nooshin@v7labs.com
+# Script name: create-standard-workflow.py
 # Last edited: 27.11.2023
 
 DESCRIPTION

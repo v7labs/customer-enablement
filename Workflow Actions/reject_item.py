@@ -1,5 +1,5 @@
 '''
-# Email: nooshin@v7labs.com
+# Script name: reject_item.py
 # Last edited: 27.11.2023
 
 DESCRIPTION
