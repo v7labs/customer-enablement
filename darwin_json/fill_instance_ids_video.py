@@ -5,7 +5,7 @@
 DESCRIPTION
 Before running this script:
 - 1: A new review stage called "InstanceIDCheck" must be created in the dataset's workflow
-- 2: The variables on lines 40-45 must be populated with the correct values for your team and dataset
+- 2: The variables on lines 38-45 must be populated with the correct values for your team and dataset
 - 3: All classes present in the dataset must have the instance ID sub-annotation type enabled
 
 When executed from the command line, this script:

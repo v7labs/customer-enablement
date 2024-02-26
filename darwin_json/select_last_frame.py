@@ -4,7 +4,8 @@
 
 DESCRIPTION
 When executed from the command line, this script:
-- 1: Splits the source annotation video file into separate files.
+- 1: Extracts the annotations present in the last frame of a video
+- 2: Saves them to a new annotation file
 
 USAGE
 python select_last_frame.py [-h] --source_path SOURCE_PATH --destination_path DESTINATION_PATH --next_file_name NEXT_FILE_NAME
@@ -88,13 +89,8 @@ def main():
         data = json.load(f)
 
     # Defining new file name and retrieving last frame value
-    if data["version"] == "1.0":
-        data["image"]["filename"] = next_file_name
-        last_frame = data["image"]["frame_count"] - 1
-
-    else:
-        data["item"]["name"] = next_file_name
-        last_frame = data["item"]["slots"][0]["frame_count"] - 1
+    data["item"]["name"] = next_file_name
+    last_frame = data["item"]["slots"][0]["frame_count"] - 1
 
     try:
         annotators = data["annotators"]
