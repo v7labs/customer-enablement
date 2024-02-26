@@ -1,2 +1,2 @@
 # Customer-Enablement
-V7 repo with example code snippets and how-to-guides for programmatic interactions with the Darwin platform. 
+A repository of Python scripts for programmatic interaction with the Darwin platform.

@@ -1,0 +1,289 @@
+{
+  "$id": "https://darwin.v7labs.com/schemas/external-models/inference-response.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Inference response",
+  "description": "JSON response to an inference request. Encapsulates a list of results",
+  "type": "object",
+  "properties": {
+    "results": {
+      "items": {
+        "properties": {
+          "attributes": {
+            "$ref": "#/$defs/attributes"
+          },
+          "bounding_box": {
+            "$ref": "#/$defs/bounding_box"
+          },
+          "confidence": {
+            "$ref": "#/$defs/confidence"
+          },
+          "cuboid": {
+            "$ref": "#/$defs/cuboid"
+          },
+          "directional_vector": {
+            "$ref": "#/$defs/directional_vector"
+          },
+          "ellipse": {
+            "$ref": "#/$defs/ellipse"
+          },
+          "keypoint": {
+            "$ref": "#/$defs/keypoint"
+          },
+          "line": {
+            "$ref": "#/$defs/line"
+          },
+          "name": {
+            "type": "string"
+          },
+          "polygon": {
+            "$ref": "#/$defs/polygon"
+          },
+          "skeleton": {
+            "$ref": "#/$defs/skeleton"
+          },
+          "tag": {
+            "type": "object"
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "bounding_box"
+            ]
+          },
+          {
+            "required": [
+              "cuboid"
+            ]
+          },
+          {
+            "required": [
+              "directional_vector"
+            ]
+          },
+          {
+            "required": [
+              "ellipse"
+            ]
+          },
+          {
+            "required": [
+              "line"
+            ]
+          },
+          {
+            "required": [
+              "keypoint"
+            ]
+          },
+          {
+            "required": [
+              "polygon"
+            ]
+          },
+          {
+            "required": [
+              "skeleton"
+            ]
+          },
+          {
+            "required": [
+              "tag"
+            ]
+          }
+        ],
+        "required": [
+          "name",
+          "label",
+          "confidence"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "succeeded",
+        "failed"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "$defs": {
+    "attributes": {
+      "properties": {
+        "attributes": {
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "attributes"
+      ],
+      "type": "array"
+    },
+    "bounding_box": {
+      "properties": {
+        "h": {
+          "type": "number",
+          "minimum": 0
+        },
+        "w": {
+          "type": "number",
+          "minimum": 0
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "h",
+        "w",
+        "x",
+        "y"
+      ],
+      "type": "object"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "number"
+    },
+    "cuboid": {
+      "properties": {
+        "back": {
+          "$ref": "#/$defs/bounding_box"
+        },
+        "front": {
+          "$ref": "#/$defs/bounding_box"
+        }
+      },
+      "required": [
+        "back",
+        "front"
+      ],
+      "type": "object"
+    },
+    "directional_vector": {
+      "properties": {
+        "angle": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "length": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "angle",
+        "length"
+      ],
+      "type": "object"
+    },
+    "ellipse": {
+      "properties": {
+        "angle": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "center": {
+          "$ref": "#/$defs/keypoint"
+        },
+        "radius": {
+          "$ref": "#/$defs/keypoint"
+        }
+      },
+      "required": [
+        "angle",
+        "center",
+        "radius"
+      ],
+      "type": "object"
+    },
+    "keypoint": {
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "type": "object"
+    },
+    "line": {
+      "properties": {
+        "path": {
+          "items": {
+            "$ref": "#/$defs/keypoint"
+          }
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "polygon": {
+      "$ref": "#/$defs/line"
+    },
+    "skeleton": {
+      "properties": {
+        "nodes": {
+          "items": {
+            "properties": {
+              "occluded": {
+                "type": "boolean"
+              },
+              "x": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "y": {
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "occluded",
+              "x",
+              "y"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "nodes"
+      ],
+      "type": "object"
+    },
+    "text": {
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "type": "object"
+    }
+  }
+}
