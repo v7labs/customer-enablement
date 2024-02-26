@@ -1,7 +1,5 @@
 """
 # Script name: copy_classes.py
-# Author: John Wilkie
-# Email: john@v7labs.com
 # Last edited: 07.01.24
 
 DESCRIPTION
