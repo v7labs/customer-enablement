@@ -1,2 +1,2 @@
 # Customer-Enablement
-A repository of Python scripts for programmatic interaction with the Darwin platform.
+A collection of Python files for programmatic interaction with the V7 Darwin platform: https://darwin.v7labs.com/
